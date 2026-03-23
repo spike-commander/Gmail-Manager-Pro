@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail Manager Pro",
+  "version": "2.0.0",
+  "description": "Advanced Gmail management with smart triage, rule-based sorting, and productivity tools",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms",
+    "notifications",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon.svg",
+      "48": "icons/icon.svg",
+      "128": "icons/icon.svg"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "side_panel": {
+    "default_path": "sidebar.html",
+    "default_icon": {
+      "16": "icons/icon.svg"
+    }
+  },
+  "icons": {
+    "16": "icons/icon.svg",
+    "48": "icons/icon.svg",
+    "128": "icons/icon.svg"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["sidebar.html", "sidebar.css", "sidebar.js"],
+      "matches": ["https://mail.google.com/*"]
+    }
+  ]
+}

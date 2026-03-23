@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gmail Manager Pro - Rules</title>
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <div class="sidebar">
+    <header class="sidebar-header">
+      <h1>Gmail Manager Pro</h1>
+      <p class="subtitle">Smart Rules & Automation</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="rules">Rules</button>
+      <button class="tab" data-tab="triage">Smart Triage</button>
+      <button class="tab" data-tab="unsubscribe">Unsub</button>
+      <button class="tab" data-tab="reminders">Reminders</button>
+    </nav>
+
+    <main class="content">
+      <section id="rules-tab" class="tab-content active">
+        <div class="section-header">
+          <h2>Dynamic Rules</h2>
+          <button class="btn btn-primary" id="addRuleBtn">+ New Rule</button>
+        </div>
+        
+        <div class="rules-list" id="rulesList">
+          <div class="empty-state">No rules created yet</div>
+        </div>
+
+        <div class="rule-templates">
+          <h3>Quick Templates</h3>
+          <div class="template-grid">
+            <button class="template-btn" data-template="newsletter">
+              <span class="icon">📰</span> Newsletters
+            </button>
+            <button class="template-btn" data-template="social">
+              <span class="icon">📱</span> Social Media
+            </button>
+            <button class="template-btn" data-template="important">
+              <span class="icon">⭐</span> From VIP
+            </button>
+            <button class="template-btn" data-template="attachments">
+              <span class="icon">📎</span> Has Attachments
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="triage-tab" class="tab-content">
+        <div class="section-header">
+          <h2>Smart Priority Triage</h2>
+        </div>
+        
+        <div class="triage-settings">
+          <div class="setting-group">
+            <h3>Priority Detection</h3>
+            <label class="toggle-label">
+              <input type="checkbox" id="enablePriorityTriage" checked>
+              <span class="toggle"></span>
+              Auto-detect priority emails
+            </label>
+            <p class="setting-desc">Uses AI to identify important emails based on your interactions</p>
+          </div>
+
+          <div class="setting-group">
+            <h3>Priority Senders</h3>
+            <div class="vip-senders" id="vipSenders">
+              <div class="empty-state small">No VIP senders added</div>
+            </div>
+            <div class="add-vip-form">
+              <input type="email" id="vipEmail" placeholder="Add email address">
+              <button id="addVipBtn">Add</button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <h3>Triage Actions</h3>
+            <div class="action-config">
+              <label>High Priority →</label>
+              <select id="highPriorityAction">
+                <option value="important">Mark Important</option>
+                <option value="star">Star</option>
+                <option value="label">Apply Label</option>
+                <option value="none">No Action</option>
+              </select>
+            </div>
+            <div class="action-config">
+              <label>Low Priority →</label>
+              <select id="lowPriorityAction">
+                <option value="archive">Auto Archive</option>
+                <option value="label">Apply Label</option>
+                <option value="mute">Mute</option>
+                <option value="none">No Action</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="unsubscribe-tab" class="tab-content">
+        <div class="section-header">
+          <h2>One-Click Unsubscribe</h2>
+        </div>
+        
+        <div class="unsubscribe-stats">
+          <div class="stat-card">
+            <span class="stat-value" id="newsletterCount">0</span>
+            <span class="stat-label">Newsletters Detected</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="unsubscribedCount">0</span>
+            <span class="stat-label">Unsubscribed This Month</span>
+          </div>
+        </div>
+
+        <div class="unsubscribe-list" id="unsubscribeList">
+          <div class="empty-state">Scanning for newsletters...</div>
+        </div>
+
+        <button class="btn btn-secondary" id="scanNewsletters">Scan for Newsletters</button>
+      </section>
+
+      <section id="reminders-tab" class="tab-content">
+        <div class="section-header">
+          <h2>Smart Reminders</h2>
+          <button class="btn btn-primary" id="addReminderBtn">+ Set Reminder</button>
+        </div>
+
+        <div class="reminder-tabs">
+          <button class="reminder-tab active" data-type="pending">Pending</button>
+          <button class="reminder-tab" data-type="completed">Completed</button>
+          <button class="reminder-tab" data-type="snoozed">Snoozed</button>
+        </div>
+
+        <div class="reminders-list" id="remindersList">
+          <div class="empty-state">No reminders set</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="sidebar-footer">
+      <button class="footer-btn" id="openSidebarBtn">
+        <span class="icon">📋</span> Open Full Panel
+      </button>
+      <div class="version">v2.0.0</div>
+    </footer>
+  </div>
+
+  <div class="modal" id="ruleModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Create New Rule</h3>
+        <button class="close-btn" id="closeRuleModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Rule Name</label>
+          <input type="text" id="ruleName" placeholder="e.g., Archive newsletters">
+        </div>
+        
+        <div class="form-group">
+          <label>When email matches:</label>
+          <div class="condition-builder">
+            <select id="conditionField">
+              <option value="from">From</option>
+              <option value="to">To</option>
+              <option value="subject">Subject</option>
+              <option value="body">Body contains</option>
+              <option value="hasAttachment">Has attachment</option>
+              <option value="listUnsubscribe">Is newsletter</option>
+            </select>
+            <select id="conditionOperator">
+              <option value="contains">contains</option>
+              <option value="notContains">does not contain</option>
+              <option value="equals">equals</option>
+              <option value="startsWith">starts with</option>
+              <option value="regex">matches regex</option>
+            </select>
+            <input type="text" id="conditionValue" placeholder="Value...">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Actions (in order):</label>
+          <div class="actions-builder" id="actionsBuilder">
+            <div class="action-item">
+              <select class="action-select">
+                <option value="archive">Archive</option>
+                <option value="delete">Delete</option>
+                <option value="markRead">Mark as Read</option>
+                <option value="star">Star</option>
+                <option value="applyLabel">Apply Label</option>
+                <option value="removeLabel">Remove Label</option>
+                <option value="forward">Forward to</option>
+                <option value="notify">Show Notification</option>
+              </select>
+              <input type="text" class="action-value" placeholder="Label/Email...">
+              <button class="remove-action">&times;</button>
+            </div>
+          </div>
+          <button class="btn btn-small" id="addActionBtn">+ Add Action</button>
+        </div>
+
+        <div class="form-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="ruleEnabled" checked>
+            <span class="toggle"></span>
+            Rule is active
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelRuleBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveRuleBtn">Save Rule</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="reminderModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Set Reminder</h3>
+        <button class="close-btn" id="closeReminderModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Reminder for:</label>
+          <select id="reminderType">
+            <option value="email">Selected Email</option>
+            <option value="thread">Entire Thread</option>
+            <option value="custom">Custom Note</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Remind me in:</label>
+          <div class="reminder-time">
+            <input type="number" id="reminderAmount" value="1" min="1">
+            <select id="reminderUnit">
+              <option value="minutes">Minutes</option>
+              <option value="hours" selected>Hours</option>
+              <option value="days">Days</option>
+              <option value="weeks">Weeks</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Note (optional):</label>
+          <textarea id="reminderNote" placeholder="Add a note..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelReminderBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveReminderBtn">Set Reminder</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="sidebar.js"></script>
+</body>
+</html>

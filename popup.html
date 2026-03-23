@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gmail Manager Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Gmail Manager Pro</h1>
+      <div class="status" id="status">Checking Gmail...</div>
+    </header>
+
+    <section class="panel">
+      <div class="quick-actions">
+        <button class="quick-btn" id="openSidebar">
+          <span class="icon">⚙️</span> Rules Panel
+        </button>
+        <button class="quick-btn" id="runSmartTriage">
+          <span class="icon">🧠</span> Smart Triage
+        </button>
+        <button class="quick-btn" id="setReminder">
+          <span class="icon">⏰</span> Set Reminder
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Bulk Actions</h2>
+      <div class="actions-grid">
+        <button class="action-btn" id="selectAll" data-action="selectAll">
+          <span class="icon">☑</span> Select All
+        </button>
+        <button class="action-btn" id="deselectAll" data-action="deselectAll">
+          <span class="icon">☐</span> Deselect All
+        </button>
+        <button class="action-btn archive" id="archive" data-action="archive">
+          <span class="icon">📥</span> Archive
+        </button>
+        <button class="action-btn delete" id="delete" data-action="delete">
+          <span class="icon">🗑</span> Delete
+        </button>
+        <button class="action-btn" id="markRead" data-action="markRead">
+          <span class="icon">✓</span> Mark Read
+        </button>
+        <button class="action-btn" id="markUnread" data-action="markUnread">
+          <span class="icon">○</span> Mark Unread
+        </button>
+        <button class="action-btn star" id="star" data-action="star">
+          <span class="icon">★</span> Star
+        </button>
+        <button class="action-btn" id="spam" data-action="spam">
+          <span class="icon">⚠</span> Report Spam
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Labels</h2>
+      <div class="labels-container" id="labelsContainer">
+        <div class="loading">Loading labels...</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Quick Filters</h2>
+      <div class="filters">
+        <button class="filter-btn" data-filter="unread">Unread</button>
+        <button class="filter-btn" data-filter="starred">Starred</button>
+        <button class="filter-btn" data-filter="important">Important</button>
+        <button class="filter-btn" data-filter="attachments">With Attachments</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Saved Filters</h2>
+      <div class="saved-filters" id="savedFilters">
+        <div class="empty-state">No saved filters</div>
+      </div>
+      <div class="save-filter-form">
+        <input type="text" id="filterName" placeholder="Filter name">
+        <button id="saveFilter">Save Current View</button>
+      </div>
+    </section>
+
+    <section class="panel stats">
+      <h2>Stats</h2>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat">
+          <span class="stat-value" id="totalEmails">-</span>
+          <span class="stat-label">Total</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="unreadEmails">-</span>
+          <span class="stat-label">Unread</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="selectedEmails">0</span>
+          <span class="stat-label">Selected</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel advanced">
+      <h2>Advanced</h2>
+      <div class="advanced-actions">
+        <button class="adv-btn" id="scanNewsletters">
+          <span class="icon">📰</span> Scan Newsletters
+        </button>
+        <button class="adv-btn" id="quickUnsubscribe">
+          <span class="icon">🚫</span> Quick Unsubscribe
+        </button>
+      </div>
+    </section>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
