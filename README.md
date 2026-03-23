@@ -48,7 +48,7 @@ Chrome Extension/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/gmail-manager-pro.git
+   git clone https://github.com/spike-commander/gmail-manager-pro.git
    ```
 
 2. **Open Chrome Extensions page**
